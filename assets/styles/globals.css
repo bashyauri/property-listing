@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* FIXED: Poppins moved here, defining the 'font-poppins' utility class */
+  --font-poppins: var(--font-poppins), sans-serif; /* Note the use of var() here for font utility class */
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Custom grid columns are correct */
+  --grid-template-columns-70-30: 70% 28%;
+}
