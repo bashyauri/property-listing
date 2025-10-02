@@ -1,5 +1,5 @@
 function PropertiesPage() {
-  return <div>Properties Page</div>;
+  return <div></div>;
 }
 
 export default PropertiesPage;
