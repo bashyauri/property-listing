@@ -7,7 +7,7 @@ import connectDB from "@/config/database";
  * HomePage component that renders the hero, info boxes and home properties components.
  */
 const HomePage = () => {
-  connectDB();
+  // connectDB();
   return (
     <>
       <Hero />
