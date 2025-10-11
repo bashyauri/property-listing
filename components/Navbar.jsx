@@ -23,6 +23,12 @@ const Navbar = () => {
     };
     setAuthProviders();
   }, []);
+  const handleSignOut = () => {
+    signOut({
+      callbackUrl: "/",
+    });
+    setIsProfileMenuOpen(false);
+  };
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -203,6 +209,7 @@ const Navbar = () => {
                       role="menuitem"
                       tabIndex="-1"
                       id="user-menu-item-2"
+                      onClick={handleSignOut}
                     >
                       Sign Out
                     </button>
