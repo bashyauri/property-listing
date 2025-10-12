@@ -4,6 +4,7 @@ import PropertyHeaderImage from "@/components/PropertyHeaderImage";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import PropertyDetails from "@/components/PropertyDetails";
+import PropertyImages from "@/components/PropertyImages";
 
 const Propertypage = async ({ params }) => {
   const resolvedParams = await params; // ✅ Await params
@@ -32,6 +33,7 @@ const Propertypage = async ({ params }) => {
           </div>
         </div>
       </section>
+      <PropertyImages className="bg-blue-50 p-4" images={property.images} />
     </>
   );
 };
