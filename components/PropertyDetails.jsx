@@ -6,6 +6,7 @@ import {
   FaTimes,
   FaMapMarker,
 } from "react-icons/fa";
+import PropertyMapWrapper from "./PropertyMapWrapper";
 
 const PropertyDetails = ({ property }) => {
   return (
@@ -17,10 +18,9 @@ const PropertyDetails = ({ property }) => {
           <FaMapMarker className="text-lg text-orange-700 mr-1 mt-1" />
           <p className="text-orange-700">
             {property.location.street} {property.location.city},{" "}
-            {property.location.state} {property.location.zip}
+            {property.location.state} {property.location.zipcode}
           </p>
         </div>
-
         <h3 className="text-lg font-bold my-6 bg-gray-800 text-white p-2">
           Rates & Options
         </h3>
@@ -31,7 +31,7 @@ const PropertyDetails = ({ property }) => {
               {property.rates.nightly ? (
                 `$${property.rates.nightly.toLocaleString()}`
               ) : (
-                <FaTimes className=" text-red-700" />
+                <FaTimes className="text-red-700" />
               )}
             </div>
           </div>
@@ -41,7 +41,7 @@ const PropertyDetails = ({ property }) => {
               {property.rates.weekly ? (
                 `$${property.rates.weekly.toLocaleString()}`
               ) : (
-                <FaTimes className=" text-red-700" />
+                <FaTimes className="text-red-700" />
               )}
             </div>
           </div>
@@ -51,7 +51,7 @@ const PropertyDetails = ({ property }) => {
               {property.rates.monthly ? (
                 `$${property.rates.monthly.toLocaleString()}`
               ) : (
-                <FaTimes className=" text-red-700" />
+                <FaTimes className="text-red-700" />
               )}
             </div>
           </div>
@@ -80,7 +80,6 @@ const PropertyDetails = ({ property }) => {
 
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
         <h3 className="text-lg font-bold mb-6">Amenities</h3>
-
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 list-none">
           {property.amenities.map((amenity, index) => (
             <li key={index}>
@@ -91,7 +90,7 @@ const PropertyDetails = ({ property }) => {
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <div id="map"></div>
+        <PropertyMapWrapper property={property} />
       </div>
     </main>
   );
