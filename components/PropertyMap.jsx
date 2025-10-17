@@ -13,7 +13,6 @@ const PropertyMap = ({ property }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    console.log("Property:", property); // Log property
     const fetchCoords = async () => {
       try {
         // Validate and clean address fields
