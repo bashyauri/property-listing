@@ -6,7 +6,7 @@ const SavedPropertiesPage = async () => {
   const sessionUser = await getSessionUser();
   const { userId } = sessionUser;
   const { bookmarks } = await User.findById(userId).populate("bookmarks");
-  console.log(bookmarks);
+
   return (
     <section className="px-4 py-6">
       <div className="container lg:container m-auto px-4 py-6">
