@@ -1,55 +1,55 @@
-// src/middleware.ts   (create this file in the project root)
+// middleware.js
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-// ------------------------------------------------------------------
-// 1. List of routes that MUST stay public (no redirect to login)
-// ------------------------------------------------------------------
+/** Public routes – must stay accessible without login */
 const PUBLIC_PATHS = ["/", "/properties", "/api/auth", "/favicon.ico"];
 
-// ------------------------------------------------------------------
-// 2. The matcher you already had – only these need protection
-// ------------------------------------------------------------------
-const PROTECTED_MATCHER = [
+/** Protected routes – only these need authentication */
+const PROTECTED_PATHS = [
   "/properties/add",
   "/profile",
   "/properties/saved",
   "/messages",
 ];
 
-// ------------------------------------------------------------------
-// 3. Custom middleware that runs *before* next-auth’s withAuth
-// ------------------------------------------------------------------
+/** Middleware entry point */
 export default async function middleware(req) {
   const { pathname } = req.nextUrl;
 
-  // ----- Allow static / _next files unconditionally -----
+  // 1. Skip all static assets, images, _next files, and files with extensions
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/static") ||
-    pathname.includes(".") // any file with an extension
+    pathname.includes(".") ||
+    pathname === "/favicon.ico"
   ) {
     return NextResponse.next();
   }
 
-  // ----- Public routes – bypass auth completely -----
-  if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
+  // 2. Allow public routes (home, /properties, etc.)
+  const isPublic = PUBLIC_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(p + "/")
+  );
+  if (isPublic) {
     return NextResponse.next();
   }
 
-  // ----- Protected routes – run next-auth’s withAuth -----
-  if (PROTECTED_MATCHER.some((p) => pathname.startsWith(p))) {
-    // `withAuth` will redirect to /api/auth/signin?callbackUrl=…
+  // 3. Protect only the defined routes
+  const isProtected = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
+  if (isProtected) {
+    // `withAuth` will redirect to login if no session
     return withAuth(req);
   }
 
-  // Anything else (future routes) – just continue
+  // 4. All other routes – allow (future-proof)
   return NextResponse.next();
 }
 
-// ------------------------------------------------------------------
-// 4. Matcher – apply to *everything* (we filter inside the function)
-// ------------------------------------------------------------------
+// Apply middleware to every page except static files
 export const config = {
-  matcher: ["/((?!_next/image|_next/static|favicon.ico).*)"],
+  matcher: [
+    // Match all paths except static assets, images, and files with extensions
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.).*)",
+  ],
 };
